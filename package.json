@@ -1,0 +1,21 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": ""
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.18",
+        "axios": "^1.6.4",
+        "laravel-mix": "^6.0.49",
+        "lodash": "^4.17.19",
+        "postcss": "^8.4.35",
+        "tailwindcss": "^3.4.1"
+    },
+    "dependencies": {
+        "buffer": "^6.0.3",
+        "function-bind": "^1.1.2"
+    }
+}
