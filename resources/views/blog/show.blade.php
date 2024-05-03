@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" 
+    content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="x-ua-compitable" content="ie=edge"
+    />
     <title>Laravel App</title>
     <link href="{{ asset('CSS/app.css') }}" rel="stylesheet">
 </head>
@@ -23,9 +27,9 @@
                 <span class="text-left text-gray-900 pb-10">
                     Made by:
                     <a href="" class="font-bold text-green-500 italic hover:text-green-400 hover:border-b-2 border-green-400 pb-3 transition-all py-20">
-                        Code With Dary
+                        laravel framework
                     </a>
-                    On 17-07-2022
+                    On 25-03-2024
                 </span>
             </div>
         </div>

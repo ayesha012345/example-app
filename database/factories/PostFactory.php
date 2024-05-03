@@ -14,22 +14,18 @@ class PostFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-        //   'title' => 'Model Factories',
-        //   'excerpt' => 'Excerpt of our first model factory',
-        //   'body' => 'content of body',
-        //   'image_path' => 'image path',
-        //   'is_published' => 1,
-        //   'min_to_read' => 2,
+      
 
 'title' => $this->faker->unique()->sentence(),
 'excerpt' => $this->faker->realText($maxNbChars =50),
 'body' => $this->faker->text(),
 'image_path' => $this->faker->imageUrl(640, 480),
 'is_published' => 1,
-'min_to_read' => $this->faker->numberBetween(1, 10)
+'min_to_read' => $this->faker->numberBetween(1, 10),
+'user_id'=>1
         ];
     }
 }

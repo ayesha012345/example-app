@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostFormRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -66,8 +67,9 @@ class PostsController extends Controller
     //    });
    
         return view('blog.index',[
-    'posts' =>post::orderBy('updated_at', 'desc')->get()
+    'posts' =>post::orderBy('updated_at', 'desc')->paginate(20)
     ]);
+    
         
         // ,[
         //     //'posts'=> DB::table('posts')->get()
@@ -85,24 +87,18 @@ class PostsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostFormRequest $request)
 
     {
-        $request->validate([
-            'title'=>'required|unique:posts|max:255',
-            'excerpt'=>'required',
-            'body'=>'required',
-            'image'=>['required', 'mimes:png,jpg,jpeg','max:5048'],
-            'min_to_read'=> 'min:0|max:60'
-
-        ]);
+        $request->validated();
+      
    Post::create([
         'title'=>$request->title,
         'excerpt'=>$request->excerpt,
         'body'=>$request->body,
         'image_path'=>$this->storeImage($request),
-        'is_published'=>$request->is_published===0,
-        'min_to_read'=>$request->min_to_read,
+        'is_published'=>$request->is_published === 'on',
+        'min_to_read'=>$request->min_to_read
       
     ]);
         return redirect(route('blog.index'));
@@ -122,19 +118,26 @@ return view('blog.show',[
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
         return view('blog.edit',[ 
-            'post'=>post::where('id',$id)->first()
+            'post'=>Post::where('id',$id)->first()
             ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostFormRequest $request, $id)
     {
-        dd('test');
+        $request->validated();
+        Post::where('id', $id)->update(
+            $request->is_published == 'on' 
+                ? array_replace($request->except('_token', '_method'), ['is_published' => 1])
+                : array_replace($request->except('_token', '_method'), ['is_published' => 0])
+        );
+
+      return redirect(route('blog.index'));
     }
 
     /**
@@ -142,7 +145,8 @@ return view('blog.show',[
      */
     public function destroy(string $id)
     {
-        //
+      Post::destroy($id);
+      return redirect(route('blog.index'))->with('message', 'post has been deleted.');
     }
     private function storeImage($request)
     {
